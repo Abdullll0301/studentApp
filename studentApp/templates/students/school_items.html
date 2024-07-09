@@ -1,0 +1,131 @@
+{% extends 'students/base.html' %}
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>School_items</title>
+</head>
+<body>
+{% block title %}School Items{% endblock %}
+
+{% block content %}
+    <h2>School Items</h2>
+    <form method="get" action="{% url 'school_items' %}">
+        <input type="text" name="q" placeholder="Search for items" value="{{ query }}">
+        <button type="submit">Search</button>
+    </form>
+    
+    <ul class="items-list">
+        {% for item in items %}
+            <li class="item">
+                <div class="item-info">
+                    <img src="{{ item.image.url }}" alt="{{ item.name }}" class="item-image">
+                    <div class="item-details">
+                        <p class="item-name">{{ item.name }}</p>
+                        <p class="item-description">{{ item.description }}</p>
+                        <p class="item-price">#{{ item.price }}</p>
+                    </div>
+                </div>
+            </li>
+        {% empty %}
+            <li class="no-items">No items found.</li>
+        {% endfor %}
+    </ul>
+
+    <style>
+        body {
+            background-image: url("{% static 'passport/back.jpg' %}");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], button {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .items-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .item {
+            display: flex;
+            margin-bottom: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .item-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .item-image {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px 0 0 8px;
+        }
+
+        .item-details {
+            padding: 20px;
+        }
+
+        .item-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .item-description {
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .item-price {
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .no-items {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+    </style>
+{% endblock %}
+</body>
+</html>

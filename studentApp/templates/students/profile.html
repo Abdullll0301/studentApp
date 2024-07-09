@@ -1,0 +1,166 @@
+{% extends "students/base.html" %}
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Profile</title>
+</head>
+<body>
+{% block content %}
+    <h2>Profile</h2>
+    <div class="profile-info">
+        <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="img-thumbnail profile-picture">
+        <div class="profile-details">
+            <h3>Results</h3>
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Math</td>
+                        <td>{{ results.math }}</td>
+                    </tr>
+                    <tr>
+                        <td>English</td>
+                        <td>{{ results.english }}</td>
+                    </tr>
+                    <tr>
+                        <td>Science</td>
+                        <td>{{ results.science }}</td>
+                    </tr>
+                    <tr>
+                        <td>Biology</td>
+                        <td>{{ results.biology }}</td>
+                    </tr>
+                    <tr>
+                        <td>IRS</td>
+                        <td>{{ results.irs }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>&copy; 2024 Your School. All Rights Reserved.</p>
+    </footer>
+    <style>
+        body {
+            background-image: url("{% static 'passport/back.jpg' %}");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+
+        .profile-details {
+            flex: 1;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .results-table th, .results-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .results-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .results-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-top: 1px solid #ddd;
+        }
+
+        .footer p {
+            margin: 0;
+            color: #555;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Add your JavaScript here
+
+            // Example: Alert the user when they click the logout button
+            document.querySelector('.btn-danger').addEventListener('click', function(event) {
+                if (!confirm('Are you sure you want to logout?')) {
+                    event.preventDefault();
+                }
+            });
+
+            // Example: Highlight the highest score
+            const scores = document.querySelectorAll('.results-table td:nth-child(2)');
+            let maxScore = -1;
+            let maxScoreElement;
+            scores.forEach(function(scoreElement) {
+                const score = parseInt(scoreElement.innerText, 10);
+                if (score > maxScore) {
+                    maxScore = score;
+                    maxScoreElement = scoreElement;
+                }
+            });
+            if (maxScoreElement) {
+                maxScoreElement.style.backgroundColor = 'lightgreen';
+                maxScoreElement.style.fontWeight = 'bold';
+            }
+        });
+    </script>
+{% endblock %}
+</body>
+</html>
